@@ -1,4 +1,4 @@
-package com.example.phone_auth_firebase_getx
+package com.example.flutter_firebase_auth_getx
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,4 +1,4 @@
-# phone_auth_firebase_getx
+# flutter_firebase_auth_getx
 
 A new Flutter application.
 

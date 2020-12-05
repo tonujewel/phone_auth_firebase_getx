@@ -1,104 +1,129 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_auth_getx/utils/AppConstant.dart';
+import 'package:flutter_firebase_auth_getx/views/home/home_screen.dart';
+import 'package:flutter_firebase_auth_getx/views/otp_screen/otp_screen.dart';
 import 'package:get/get.dart';
-import 'package:phone_auth_firebase_getx/views/otp_page.dart';
 
 class AuthController extends GetxController {
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController otpController = TextEditingController();
   AuthCredential phoneAuthCredential;
-  String _status;
-  String _verificationId;
-  int _code;
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   var isLoading = false.obs;
   var isOtpLoading = false.obs;
 
-  Future<void> submitPhoneNumber() async {
-    isLoading(true);
-    String phoneNumber = phoneNumberController.text.toString().trim();
-    print(phoneNumber);
+  String countryCode;
+  String _verificationId;
+  int otpCode;
 
-    /// The below functions are the callbacks, separated so as to make code more redable
-    void verificationCompleted(AuthCredential phoneAuthCredential) {
-      print('verificationCompleted');
-      _status += 'verificationCompleted\n';
-      Get.to(OTP());
-      isLoading(false);
-
-      this.phoneAuthCredential = phoneAuthCredential;
-      print(phoneAuthCredential);
-
-    }
-
-    void verificationFailed(AuthException error) {
-      isLoading(false);
-      update();
-      Get.snackbar('Failed', 'Something went Wrong');
-      print('verificationFailed');
-      handleError(error);
-
-    }
-
-    void codeSent(String verificationId, [int code]) {
-      print('codeSent');
-      this._verificationId = verificationId;
-      print(verificationId);
-      this._code = code;
-      Get.to(OTP());
-      print(code.toString());
-
-      _status += 'Code Sent\n';
-      isLoading(false);
-      update();
-
-    }
-
-    void codeAutoRetrievalTimeout(String verificationId) {
-      print('codeAutoRetrievalTimeout');
-      _status += 'codeAutoRetrievalTimeout\n';
-      isLoading(false);
-      update();
-      print(verificationId);
-
-    }
-
-    await FirebaseAuth.instance.verifyPhoneNumber(
-      /// Make sure to prefix with your country code
-      phoneNumber: phoneNumber,
-
-      /// `seconds` didn't work. The underlying implementation code only reads in `millisenconds`
-      timeout: Duration(milliseconds: 10000),
-
-      /// If the SIM (with phoneNumber) is in the current device this function is called.
-      /// This function gives `AuthCredential`. Moreover `login` function can be called from this callback
-      /// When this function is called there is no need to enter the OTP, you can click on Login button to sigin directly as the device is now verified
-      verificationCompleted: verificationCompleted,
-
-      /// Called when the verification is failed
-      verificationFailed: verificationFailed,
-
-      /// This is called after the OTP is sent. Gives a `verificationId` and `code`
-      codeSent: codeSent,
-
-      /// After automatic code retrival `tmeout` this function is called
-      codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
-
-    ); // All the callbacks are above
-
+  // Country code picker dialog
+  void countryPickerDialog(BuildContext context) {
+    showCountryPicker(
+      context: context,
+      exclude: <String>['KN', 'MF'],
+      showPhoneCode: true,
+      onSelect: (Country country) {
+        countryCode = country.phoneCode;
+      },
+    );
   }
 
-  void submitOTP() {
-    String smsCode = otpController.text.toString().trim();
+  Future<void> submitPhoneNumber() async {
+    if (phoneNumberController.text.isEmpty) {
+      errorSnackbar(msg: 'Enter phone number');
+    } else {
+      String code = countryCode == null ? "880" : countryCode;
+      String phone;
 
-    this.phoneAuthCredential = PhoneAuthProvider.getCredential(
-        verificationId: this._verificationId, smsCode: smsCode);
-    Get.snackbar('Success', 'Verification successful!');
+      if (phoneNumberController.text.trim().startsWith("0")) {
+        phone = phoneNumberController.text.trim().substring(1);
+      } else {
+        phone = phoneNumberController.text.trim();
+      }
+
+      isLoading(true);
+      String phoneNumber = "+$code$phone";
+
+      void verificationCompleted(AuthCredential phoneAuthCredential) async {
+        successSnackbar(msg: 'Verification Completed');
+        update();
+        this.phoneAuthCredential = phoneAuthCredential;
+        await auth.signInWithCredential(phoneAuthCredential);
+        print("printing uid in auto complete >>>> ${auth.currentUser.uid}");
+        Get.to(HomeScreen());
+      }
+
+      void verificationFailed(FirebaseAuthException error) {
+        isLoading(false);
+        update();
+        errorSnackbar(msg: "Something Went Wrong");
+        handleError(error);
+      }
+
+      void codeSent(String verificationId, [int code]) {
+        isLoading(false);
+        update();
+        this._verificationId = verificationId;
+        print(verificationId);
+        this.otpCode = code;
+
+        print("print otp code $code");
+        Get.to(OtpScreen());
+      }
+
+      void codeAutoRetrievalTimeout(String verificationId) {
+        isLoading(false);
+        update();
+
+        print(verificationId);
+      }
+
+      await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: phoneNumber,
+        timeout: Duration(milliseconds: 10000),
+        verificationCompleted: verificationCompleted,
+        verificationFailed: verificationFailed,
+        codeSent: codeSent,
+        codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
+      ); // All the callbacks are above
+    }
+  }
+
+  void submitOTP() async {
+    isOtpLoading(true);
+    update();
+    PhoneAuthCredential phoneAuthCredential =
+        PhoneAuthProvider.credential(verificationId: _verificationId, smsCode: otpController.text);
+    await auth.signInWithCredential(phoneAuthCredential).then((UserCredential value) {
+      if (value.user != null) {
+        isOtpLoading(false);
+        update();
+        print("Phone number " + value.user.phoneNumber);
+        print(" uid  >>>> ${auth.currentUser.uid}");
+        Get.offAll(HomeScreen());
+
+      } else {
+        isOtpLoading(false);
+        update();
+        errorSnackbar(msg: "Something went wrong");
+      }
+    }).catchError(
+      (error) {
+        isOtpLoading(false);
+        update();
+        errorSnackbar(msg: 'Invalid OTP');
+      },
+    );
   }
 
   void handleError(e) {
-    print(e.message);
-    _status += e.message + '\n';
     isLoading(false);
+    isOtpLoading(false);
     update();
+    errorSnackbar(msg: e.message.toString());
+    print(e.message);
   }
 }
