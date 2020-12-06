@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_firebase_auth_getx/utils/AppConstant.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   Map value;
   String name;
+
+
 
   void addData() {
     Map<String, dynamic> demoData = {
@@ -12,13 +15,13 @@ class HomeController extends GetxController {
     };
 
     CollectionReference collectionReference =
-        FirebaseFirestore.instance.collection('data');
+        FirebaseFirestore.instance.collection("notes-$UID");
     collectionReference.add(demoData);
   }
 
   void fetchData() {
     CollectionReference collectionReference =
-        FirebaseFirestore.instance.collection('data');
+        FirebaseFirestore.instance.collection("notes-$UID");
     collectionReference.snapshots().listen((snapshot) {
       value = snapshot.docs[0].data();
       name = "${snapshot.docs[0].data()}";
@@ -27,9 +30,18 @@ class HomeController extends GetxController {
     });
   }
 
+  Future getData() async{
+
+    var fireStore = FirebaseFirestore.instance;
+    QuerySnapshot querySnapshot = await fireStore.collection("notes-$UID").get();
+
+    return querySnapshot.docs;
+
+  }
+
   void deleteData() async {
     CollectionReference collectionReference =
-        FirebaseFirestore.instance.collection('data');
+        FirebaseFirestore.instance.collection("notes-$UID");
     QuerySnapshot querySnapshot = await collectionReference.get();
     querySnapshot.docs[0].reference.delete();
   }
@@ -41,7 +53,7 @@ class HomeController extends GetxController {
     };
 
     CollectionReference collectionReference =
-        FirebaseFirestore.instance.collection('data');
+        FirebaseFirestore.instance.collection("notes-$UID");
     QuerySnapshot querySnapshot = await collectionReference.get();
     querySnapshot.docs[0].reference.update(demoData);
   }

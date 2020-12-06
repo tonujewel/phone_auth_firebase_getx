@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_auth_getx/utils/AppConstant.dart';
 import 'package:flutter_firebase_auth_getx/views/home/home_screen.dart';
+import 'package:flutter_firebase_auth_getx/views/note_list/note_list.dart';
 import 'package:flutter_firebase_auth_getx/views/otp_screen/otp_screen.dart';
 import 'package:get/get.dart';
 
@@ -53,7 +54,8 @@ class AuthController extends GetxController {
         this.phoneAuthCredential = phoneAuthCredential;
         await auth.signInWithCredential(phoneAuthCredential);
         print("printing uid in auto complete >>>> ${auth.currentUser.uid}");
-        Get.to(HomeScreen());
+        UID = auth.currentUser.uid;
+        Get.to(NoteList());
       }
 
       void verificationFailed(FirebaseAuthException error) {
@@ -103,7 +105,8 @@ class AuthController extends GetxController {
         update();
         print("Phone number " + value.user.phoneNumber);
         print(" uid  >>>> ${auth.currentUser.uid}");
-        Get.offAll(HomeScreen());
+        UID = auth.currentUser.uid;
+        Get.offAll(NoteList());
 
       } else {
         isOtpLoading(false);

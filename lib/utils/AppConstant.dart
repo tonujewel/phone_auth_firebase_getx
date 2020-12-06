@@ -18,3 +18,6 @@ void successSnackbar({@required String msg}) {
   return Get.snackbar('$msg', "Success !",
       snackPosition: SnackPosition.TOP, backgroundColor: Colors.green[400], colorText: Colors.white);
 }
+
+
+String UID;
