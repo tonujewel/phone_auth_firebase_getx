@@ -36,13 +36,6 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 15),
-            Text(
-              homeController.name,
-              style: TextStyle(
-                color: Colors.blue,
-              ),
-            ),
-            SizedBox(height: 15),
             LoadingButton(
               isLoading: false,
               defaultStyle: true,
@@ -55,6 +48,46 @@ class HomeScreen extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Text(
                   'Fetch Data',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 15),
+            LoadingButton(
+              isLoading: false,
+              defaultStyle: true,
+
+              onPressed: () {
+                homeController.deleteData();
+              },
+              backgroundColor: Colors.red,
+              child: Container(
+                height: 30,
+                alignment: Alignment.center,
+                child: Text(
+                  'Delete Data',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 15),
+            LoadingButton(
+              isLoading: false,
+              defaultStyle: true,
+
+              onPressed: () {
+                homeController.updateData();
+              },
+              backgroundColor: Colors.green,
+              child: Container(
+                height: 30,
+                alignment: Alignment.center,
+                child: Text(
+                  'Edit Data',
                   style: TextStyle(
                     color: Colors.white,
                   ),
