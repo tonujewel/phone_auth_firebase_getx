@@ -1,10 +1,8 @@
-import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_auth_getx/components/background.dart';
 import 'package:flutter_firebase_auth_getx/components/loading_button.dart';
 import 'package:flutter_firebase_auth_getx/components/text_field_with_shadow.dart';
 import 'package:flutter_firebase_auth_getx/controllers/auth_controller.dart';
-import 'package:flutter_firebase_auth_getx/views/otp_screen/otp_screen.dart';
 import 'package:get/get.dart';
 
 class PhoneNumber extends StatelessWidget {

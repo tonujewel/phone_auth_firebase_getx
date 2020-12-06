@@ -25,8 +25,9 @@ dependencies:
     sdk: flutter
 
   # Firebase
-  firebase_core: ^0.5.2+1
-  firebase_auth: ^0.18.3+1
+  firebase_core: ^0.5.3
+  firebase_auth: ^0.18.4
+  cloud_firestore: ^0.14.4
 
   # Get
   get: ^3.21.3
@@ -34,7 +35,7 @@ dependencies:
   google_fonts: ^1.1.1
   # country picker
   country_picker: ^1.1.2
- # pin code / otp
+  # pin code / otp
   pinput: ^0.2.6
 
   # The following adds the Cupertino Icons font to your application.

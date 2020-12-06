@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase_auth_getx/components/background.dart';
 import 'package:flutter_firebase_auth_getx/components/loading_button.dart';
 import 'package:flutter_firebase_auth_getx/controllers/auth_controller.dart';
-import 'package:flutter_firebase_auth_getx/utils/AppConstant.dart';
-import 'package:flutter_firebase_auth_getx/views/home/home_screen.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 
@@ -20,7 +18,6 @@ class OtpScreen extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: size.height * .4),
-
               Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: Column(
