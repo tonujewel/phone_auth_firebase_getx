@@ -9,6 +9,16 @@ class AddNote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      backgroundColor:noteController.currentColor,
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+         noteController.colorPicker(context);
+        },
+
+        backgroundColor: Colors.black,
+      ),
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text("Add note"),
