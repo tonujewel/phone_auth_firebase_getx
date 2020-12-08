@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_auth_getx/views/demo.dart';
 import 'package:flutter_firebase_auth_getx/views/home/home_screen.dart';
 import 'package:flutter_firebase_auth_getx/views/splash/splash_screen.dart';
 import 'package:get/get.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      home: SplashScreen(),
+      home: Demo(),
       // home: SplashScreen(),
     );
   }

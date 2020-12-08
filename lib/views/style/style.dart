@@ -23,6 +23,25 @@ const kNoteTextColorLight = Color(0x99000000);
 const kNoteTitleColorLight = Color(0xFF202124);
 const kNoteDetailTextColorLight = Color(0xC2000000);
 
+const kColorPickerBorderColor = Color(0x21000000);
+
+
+/// Available note background colors
+const List<Color> colorList = [
+  Color(0xFFFFFFFF),
+  Color(0xFFF28C82),
+  Color(0xFFFABD03),
+  Color(0xFFFFF476),
+  Color(0xFFCDFF90),
+  Color(0xFFA7FEEB),
+  Color(0xFFCBF0F8),
+  Color(0xFFAFCBFA),
+  Color(0xFFD7AEFC),
+  Color(0xFFFDCFE9),
+  Color(0xFFE6C9A9),
+  Color(0xFFE9EAEE),
+];
+
 
 /// [TextStyle] for note title in a preview card
 const kNoteTitleLight = TextStyle(

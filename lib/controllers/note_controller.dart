@@ -12,11 +12,8 @@ class NoteController extends GetxController {
   TextEditingController titleController = TextEditingController();
   TextEditingController descController = TextEditingController();
 
-  Color c = const Color.fromRGBO(66, 165, 245, 1.0);
 
-  // create some values
-  Color pickerColor = Color(0xff443a49);
-  Color currentColor = Color(0xff443a49);
+
 
   var hCode = 0.obs;
 
@@ -35,60 +32,33 @@ class NoteController extends GetxController {
     super.onClose();
   }
 
-  // ValueChanged<Color> callback
-  void changeColor(Color color) {
-    pickerColor = color;
 
-    print("check color  ${color.hashCode}");
-    update();
-  }
-
-  void colorPicker(BuildContext context){
-    showDialog(
-      context: context,
-      child: AlertDialog(
-        title: const Text('Pick a color!'),
-        content: SingleChildScrollView(
-          // child: ColorPicker(
-          //   pickerColor: pickerColor,
-          //   onColorChanged: changeColor,
-          //   showLabel: true,
-          //   pickerAreaHeightPercent: 0.8,
-          // ),
-          // Use Material color picker:
-          //
-          // child: MaterialPicker(
-          //   pickerColor: pickerColor,
-          //   onColorChanged: changeColor,
-          //   showLabel: true, // only on portrait mode
-          // ),
-          //
-          // Use Block color picker:
-          //
-          child: BlockPicker(
-            pickerColor: currentColor,
-            onColorChanged: changeColor,
-          ),
-        ),
-      ),
-    );
-  }
 
   void goToAddNote() {
     Get.to(AddNote());
   }
 
-  void addData() {
+  void addData(Color color) {
+
     var now = new DateTime.now();
     var formatter = new DateFormat('dd-MM-yyyy');
     String formattedDate = formatter.format(now);
     print(formattedDate);
 
+    String newColor ;
+
+    if(color.toString().startsWith('C')){
+      newColor = "MaterialColor(primary value: ColorColor(0xff000000))";
+    }else{
+      newColor = color.toString();
+    }
+
+
     Map<String, dynamic> demoData = {
       "title": titleController.text == null ? "" : "${titleController.text}",
       "desc": descController.text == null ? "" : "${descController.text}",
       "time": "$formattedDate",
-      "color": "0xFFD7AEFC",
+      "color": "$newColor",
     };
 
     CollectionReference collectionReference = FirebaseFirestore.instance.collection("notes-$UID");

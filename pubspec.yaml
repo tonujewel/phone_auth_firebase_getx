@@ -43,6 +43,9 @@ dependencies:
   intl: ^0.16.1
   # color picker
   flutter_colorpicker: ^0.3.4
+  collection_ext: ^0.3.0
+  # popup menu
+  popup_menu: ^1.0.5
 
 
   # The following adds the Cupertino Icons font to your application.

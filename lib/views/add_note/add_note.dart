@@ -1,23 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_firebase_auth_getx/controllers/note_controller.dart';
 import 'package:flutter_firebase_auth_getx/views/style/style.dart';
 import 'package:get/get.dart';
+import 'package:popup_menu/popup_menu.dart';
 
-class AddNote extends StatelessWidget {
+class AddNote extends StatefulWidget {
+  @override
+  _AddNoteState createState() => _AddNoteState();
+}
+
+class _AddNoteState extends State<AddNote> {
   final NoteController noteController = Get.put(NoteController());
+
+  Color pickerColor = Color(0xffffffff);
+  Color currentColor = Color(0xff443a49);
+
+  void changeColor(Color color) {
+    setState(() {
+      pickerColor = color;
+      print("check color  $pickerColor");
+    });
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      backgroundColor:noteController.currentColor,
-
+      backgroundColor: pickerColor,
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-         noteController.colorPicker(context);
+        onPressed: () {
+          showDialog(
+            context: context,
+            child: AlertDialog(
+              title: const Text('Pick a color!'),
+              actions: [
+                FlatButton(
+                  child: Text("OK"),
+                  onPressed: () {
+                    Get.back();
+                  },
+                )
+              ],
+              content: SingleChildScrollView(
+                child: BlockPicker(
+                  pickerColor: currentColor,
+                  onColorChanged: changeColor,
+                ),
+              ),
+            ),
+          );
         },
-
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.grey,
       ),
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -27,15 +62,15 @@ class AddNote extends StatelessWidget {
             Icons.arrow_back,
             color: Colors.white,
           ),
-          onPressed: (){
-            noteController.addData();
+          onPressed: () {
+            Get.back();
           },
         ),
         actions: [
           IconButton(
               icon: Icon(Icons.save),
               onPressed: () {
-                noteController.addData();
+                noteController.addData(pickerColor);
               })
         ],
       ),

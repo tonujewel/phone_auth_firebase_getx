@@ -5,13 +5,13 @@ import 'package:flutter_firebase_auth_getx/utils/AppConstant.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:popup_menu/popup_menu.dart';
 
 class NoteList extends StatelessWidget {
   final NoteController noteController = Get.put(NoteController());
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -43,8 +43,7 @@ class NoteList extends StatelessWidget {
                     itemBuilder: (BuildContext context, int index) => Container(
                       padding: EdgeInsets.all(8.0),
                       decoration: BoxDecoration(
-                        color: Color(int.parse(
-                            "${snapshot.data.docs[index].data()['color']}")),
+                       color: Color(int.parse("${snapshot.data.docs[index].data()['color']}".substring(35, 45))),
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: Column(
@@ -88,4 +87,7 @@ class NoteList extends StatelessWidget {
       ),
     );
   }
+
+
+
 }

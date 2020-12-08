@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_auth_getx/components/list_menu.dart';
+import 'package:flutter_firebase_auth_getx/utils/simple_account_menu.dart';
 
 class Demo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(8),
-        child: Container(
-          padding: EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-            color: Colors.red,
-            border: Border.all(width: 2, color: Colors.black),
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-
+      body: Container(
+        color: Colors.red,
+        child: Center(
+          child: Container(
+              child: SimpleAccountMenu(
+                icons: [
+                  Icon(Icons.person),
+                  Icon(Icons.settings),
+                  Icon(Icons.credit_card),
+                ],
+                iconColor: Colors.white,
+                onChange: (index) {
+                  print(index);
+                },
+              )),
         ),
       ),
     );
