@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        textTheme: GoogleFonts.robotoTextTheme(
+        textTheme: GoogleFonts.nunitoTextTheme(
           Theme.of(context).textTheme,
         ),
       ),
