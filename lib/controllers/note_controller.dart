@@ -34,11 +34,23 @@ class NoteController extends GetxController {
 
 
 
+
+  void deleteData(int index) async {
+    CollectionReference collectionReference =
+    FirebaseFirestore.instance.collection("notes-$UID");
+    QuerySnapshot querySnapshot = await collectionReference.get();
+    querySnapshot.docs[index].reference.delete();
+    Get.back();
+  }
+
+
   void goToAddNote() {
     Get.to(AddNote());
   }
 
   void addData(Color color) {
+
+    print("color picked $color");
 
     var now = new DateTime.now();
     var formatter = new DateFormat('dd-MM-yyyy');
@@ -47,12 +59,13 @@ class NoteController extends GetxController {
 
     String newColor ;
 
-    if(color.toString().startsWith('C')){
-      newColor = "MaterialColor(primary value: ColorColor(0xff000000))";
-    }else{
+    if(color == Color(0xffffffff)){
+      newColor = "MaterialColor(primary value: Color(0xFF9E9E9E))";
+    }else if(color.toString().startsWith('C')){
+      newColor = "MaterialColor(primary value: Color(0xff000000))";
+    }else {
       newColor = color.toString();
     }
-
 
     Map<String, dynamic> demoData = {
       "title": titleController.text == null ? "" : "${titleController.text}",

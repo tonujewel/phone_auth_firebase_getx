@@ -64,13 +64,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.15.0-nullsafety.3"
-  collection_ext:
-    dependency: "direct main"
-    description:
-      name: collection_ext
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.3.0"
   convert:
     dependency: transitive
     description:
@@ -220,7 +213,7 @@ packages:
     source: hosted
     version: "3.1.4"
   intl:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: intl
       url: "https://pub.dartlang.org"
@@ -317,13 +310,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
-  popup_menu:
-    dependency: "direct main"
-    description:
-      name: popup_menu
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.5"
   process:
     dependency: transitive
     description:
@@ -385,13 +371,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.19-nullsafety.2"
-  tuple:
-    dependency: transitive
-    description:
-      name: tuple
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.3"
   typed_data:
     dependency: transitive
     description:

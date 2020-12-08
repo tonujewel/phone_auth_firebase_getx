@@ -45,7 +45,7 @@ const List<Color> colorList = [
 
 /// [TextStyle] for note title in a preview card
 const kNoteTitleLight = TextStyle(
-  color: kNoteTitleColorLight,
+  color: Colors.white70,
   fontSize: 21,
   height: 19 / 16,
   fontWeight: FontWeights.medium,
@@ -53,7 +53,7 @@ const kNoteTitleLight = TextStyle(
 
 /// [TextStyle] for text notes
 const kNoteTextLight = TextStyle(
-  color: kNoteTextColorLight,
+  color: Colors.white70,
   fontSize: 16,
   height: 1.3125,
 );
@@ -61,7 +61,7 @@ const kNoteTextLight = TextStyle(
 
 /// [TextStyle] for text notes in detail view
 const kNoteTextLargeLight = TextStyle(
-  color: kNoteDetailTextColorLight,
+  color: Colors.white70,
   fontSize: 18,
   height: 1.3125,
 );

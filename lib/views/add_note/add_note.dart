@@ -3,7 +3,6 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_firebase_auth_getx/controllers/note_controller.dart';
 import 'package:flutter_firebase_auth_getx/views/style/style.dart';
 import 'package:get/get.dart';
-import 'package:popup_menu/popup_menu.dart';
 
 class AddNote extends StatefulWidget {
   @override
@@ -22,8 +21,6 @@ class _AddNoteState extends State<AddNote> {
       print("check color  $pickerColor");
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +82,7 @@ class _AddNoteState extends State<AddNote> {
               decoration: const InputDecoration(
                 hintText: 'Title',
                 border: InputBorder.none,
+                hintStyle: kNoteTitleLight,
                 counter: const SizedBox(),
               ),
               maxLines: null,
@@ -95,7 +93,10 @@ class _AddNoteState extends State<AddNote> {
             TextField(
               controller: noteController.descController,
               style: kNoteTextLargeLight,
-              decoration: const InputDecoration.collapsed(hintText: 'Note'),
+              decoration: const InputDecoration.collapsed(
+                hintText: 'Note',
+                hintStyle: kNoteTextLargeLight,
+              ),
               maxLines: null,
               textCapitalization: TextCapitalization.sentences,
             ),
