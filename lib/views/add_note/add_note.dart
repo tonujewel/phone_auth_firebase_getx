@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_firebase_auth_getx/controllers/note_controller.dart';
+import 'package:flutter_firebase_auth_getx/utils/AppConstant.dart';
 import 'package:flutter_firebase_auth_getx/views/style/style.dart';
 import 'package:get/get.dart';
 
@@ -12,7 +13,7 @@ class AddNote extends StatefulWidget {
 class _AddNoteState extends State<AddNote> {
   final NoteController noteController = Get.put(NoteController());
 
-  Color pickerColor = Color(0xffffffff);
+  Color pickerColor = Color(0xFFBDBDBD);
   Color currentColor = Color(0xff443a49);
 
   void changeColor(Color color) {
@@ -25,35 +26,11 @@ class _AddNoteState extends State<AddNote> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: pickerColor,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            child: AlertDialog(
-              title: const Text('Pick a color!'),
-              actions: [
-                FlatButton(
-                  child: Text("OK"),
-                  onPressed: () {
-                    Get.back();
-                  },
-                )
-              ],
-              content: SingleChildScrollView(
-                child: BlockPicker(
-                  pickerColor: currentColor,
-                  onColorChanged: changeColor,
-                ),
-              ),
-            ),
-          );
-        },
-        backgroundColor: Colors.grey,
-      ),
+      backgroundColor:pickerColor,
+      floatingActionButton: buildFloatingActionButton(context),
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text("Add note"),
+        title: Text(isForUpdate==false?"Add note":"Update Note"),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -67,12 +44,17 @@ class _AddNoteState extends State<AddNote> {
           IconButton(
               icon: Icon(Icons.save),
               onPressed: () {
-                noteController.addData(pickerColor);
+                if(isForUpdate==false){
+                  noteController.addData(pickerColor);
+                }else{
+                  noteController.updateData(pickerColor);
+                }
+
               })
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.only(right: 15, left: 15),
+        padding: EdgeInsets.only(right: 20, left: 20,top: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -103,6 +85,35 @@ class _AddNoteState extends State<AddNote> {
           ],
         ),
       ),
+    );
+  }
+
+  FloatingActionButton buildFloatingActionButton(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () {
+
+        showDialog(
+          context: context,
+          child: AlertDialog(
+            title: const Text('Pick a color!'),
+            actions: [
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () {
+                  Get.back();
+                },
+              )
+            ],
+            content: SingleChildScrollView(
+              child: BlockPicker(
+                pickerColor: currentColor,
+                onColorChanged: changeColor,
+              ),
+            ),
+          ),
+        );
+      },
+      backgroundColor: Colors.grey,
     );
   }
 }

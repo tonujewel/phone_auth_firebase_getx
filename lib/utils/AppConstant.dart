@@ -21,3 +21,5 @@ void successSnackbar({@required String msg}) {
 
 
 String UID;
+
+bool isForUpdate = false;
